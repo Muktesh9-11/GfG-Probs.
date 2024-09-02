@@ -7,23 +7,34 @@ using namespace std;
 // User function template for C++
 class Solution {
   public:
+  
+   int solve(vector<int>& arr,int low,int high){
+       if(arr[high]==0) return high+1;
+       int mid=(low+high)/2;
+       if(low>high) return mid;
+       if(arr[mid]>=1) return solve(arr,low,mid-1);
+       else return solve(arr,mid+1,high);
+   }
+  
     int rowWithMax1s(vector<vector<int> > &arr) {
         // code here
         int n=arr.size();
         int m=arr[0].size();
-        
-        int ans=-1;
-        int j=0;
-        while(j<m){
+        int ans=m;
+        int index=-1;
         for(int i=0;i<n;i++){
-            if(arr[i][j]==1) {
-                ans=i;
-                return ans;
+            if(ans!=m && arr[i][ans]==0) continue;
+            else{
+                int t=solve(arr[i],0,m-1);
+                if(ans>t){
+                ans=t;
+                index=i;
+                }
             }
         }
-        j++;
-        }
-        return ans;
+        return index;
+        
+        
     }
 };
 
